@@ -14,8 +14,6 @@ const max_pop = 1000
 const TARGET = 'at least i have this going for me'.split('')
 
 class DNA {
-  // length: int
-  // genes: string[]
   constructor(length) {
     this.length = length
     this.genes = []
@@ -39,13 +37,13 @@ class DNA {
   }
 
   crossover(partner /* DNA */) {
-    const next = new DNA(this.genes.length)
+    const next = new DNA(this.length)
 
     // pick middle and half/half
-    const mid = floor(random(this.genes.length))
+    const mid = floor(random(this.length))
 
     // pick randomly at each char
-    for (let i = 0; i < this.genes.length; i++) {
+    for (let i = 0; i < this.length; i++) {
       // midpoint split
       next.genes[i] = i < mid ? this.genes[i] : partner.genes[i]
 
@@ -57,7 +55,7 @@ class DNA {
   }
 
   mutate(rate) {
-    for (let i = 0; i < this.genes.length; i++) {
+    for (let i = 0; i < this.length; i++) {
       if (random() > 1.0 - rate) {
         this.genes[i] = randomChar()
       }
@@ -171,12 +169,13 @@ let y = 14,
 let population = new Population()
 
 function setup() {
-  // 1. Initialization
   createCanvas(400, 600)
   textFont('monospace', 12)
   noStroke()
   background(51)
   performance.mark('start')
+
+  // 1. Initialization
   for (let i = 0; i < max_pop; i++) {
     population.add(new DNA(TARGET.length))
   }
@@ -185,7 +184,6 @@ function setup() {
 function draw() {
   // 2. Selection
   //   * Fitness
-
   for (let phrase of population) {
     phrase.calcFitness(TARGET)
   }
@@ -206,7 +204,7 @@ function draw() {
     y = ystep
   }
 
-  // show candidates
+  // show candidate counts
   if (frameCount % 10 === 0) {
     let x = width - 44
 
@@ -216,7 +214,7 @@ function draw() {
     fill(170)
     // T 315
     // o 010
-    //   91 for me0
+    //   91
     for (let l = 0; l < TARGET.length; l++) {
       const ly = ystep + ystep * l
       const letter = TARGET[l]
@@ -231,6 +229,7 @@ function draw() {
     for (let phrase of population) {
       sum += phrase.fitness
     }
+    // show average fitness %
     text(((sum / population.length) * 100).toFixed(2), x, height - 4)
   }
 
@@ -272,14 +271,11 @@ function keyPressed() {
 
 /// utility functions
 
-// const ALPHABET = 'abcdefghijklmnopqrstuvwxyz '.split('')
 function randomChar() {
-  // return choose(ALPHABET)
   const n = floor(random(32, 127))
   return String.fromCharCode(n)
 }
 
 function choose(arr) {
-  // use p5js random selection
   return random(arr)
 }
