@@ -1,0 +1,7 @@
+[project]
+name = "nature-of-code"
+version = "0.1.0"
+description = "sketches and experiments inspired by The Nature of Code"
+readme = "README.md"
+requires-python = ">=3.12.2"
+dependencies = []
