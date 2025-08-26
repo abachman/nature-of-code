@@ -38,16 +38,16 @@ class DNA {
     this.fitness = score / target.length
   }
 
-  crossover(other /* DNA */) {
-    const next = new DNA(other.genes.length)
+  crossover(partner /* DNA */) {
+    const next = new DNA(this.genes.length)
 
     // pick middle and half/half
-    const mid = floor(random(other.genes.length))
+    const mid = floor(random(this.genes.length))
 
     // pick randomly at each char
-    for (let i = 0; i < other.genes.length; i++) {
-      // midpoint
-      next.genes[i] = i < mid ? this.genes[i] : other.genes[i]
+    for (let i = 0; i < this.genes.length; i++) {
+      // midpoint split
+      next.genes[i] = i < mid ? this.genes[i] : partner.genes[i]
 
       // // random swap
       // next.genes[i] = random() > 0.5 ? this.genes[i] : other.genes[i]
@@ -272,11 +272,11 @@ function keyPressed() {
 
 /// utility functions
 
-const ALPHABET = 'abcdefghijklmnopqrstuvwxyz '.split('')
+// const ALPHABET = 'abcdefghijklmnopqrstuvwxyz '.split('')
 function randomChar() {
-  return choose(ALPHABET)
-  // const n = floor(random(32, 127))
-  // return String.fromCharCode(n)
+  // return choose(ALPHABET)
+  const n = floor(random(32, 127))
+  return String.fromCharCode(n)
 }
 
 function choose(arr) {
